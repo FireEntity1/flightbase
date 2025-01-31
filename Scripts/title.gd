@@ -2,7 +2,7 @@ extends Control
 
 const baseSave = {
 	"name": "",
-	"money": 50000000000,
+	"money": 20000000,
 	"aircraft": [
 		{
 			"name": "Bombardier Q400",
