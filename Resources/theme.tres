@@ -1,0 +1,44 @@
+[gd_resource type="Theme" load_steps=10 format=3 uid="uid://mso3nbd2es17"]
+
+[ext_resource type="FontFile" uid="uid://doqhdjsa5aa2w" path="res://Resources/atmospheric.ttf" id="1_rrf1c"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r75gh"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d5odn"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b38cw"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1rwqs"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_1gnig"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_1y7du"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kx0n2"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_srknm"]
+bg_color = Color(0, 0, 0, 1)
+
+[resource]
+Button/font_sizes/font_size = 50
+Button/styles/focus = SubResource("StyleBoxFlat_r75gh")
+PopupMenu/styles/embedded_border = SubResource("StyleBoxFlat_d5odn")
+PopupMenu/styles/embedded_unfocused_border = SubResource("StyleBoxFlat_b38cw")
+TabContainer/font_sizes/font_size = 25
+TabContainer/styles/tab_focus = SubResource("StyleBoxEmpty_1rwqs")
+Window/colors/title_color = Color(1, 1, 1, 1)
+Window/colors/title_outline_modulate = Color(0, 0, 0, 1)
+Window/constants/close_h_offset = 18
+Window/constants/close_v_offset = 24
+Window/constants/resize_margin = 4
+Window/constants/title_height = 36
+Window/constants/title_outline_size = 0
+Window/font_sizes/title_font_size = 16
+Window/fonts/title_font = ExtResource("1_rrf1c")
+Window/icons/close = SubResource("CanvasTexture_1gnig")
+Window/icons/close_pressed = SubResource("CanvasTexture_1y7du")
+Window/styles/embedded_border = SubResource("StyleBoxFlat_kx0n2")
+Window/styles/embedded_unfocused_border = SubResource("StyleBoxFlat_srknm")

@@ -1,0 +1,349 @@
+[gd_scene load_steps=10 format=3 uid="uid://mghp63ii5ue8"]
+
+[ext_resource type="Shader" path="res://shaders/bg.gdshader" id="1_4lfu2"]
+[ext_resource type="Script" path="res://Scripts/main.gd" id="1_fa02e"]
+[ext_resource type="Theme" uid="uid://mso3nbd2es17" path="res://Resources/theme.tres" id="2_3q4ju"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ed45l"]
+shader = ExtResource("1_4lfu2")
+shader_parameter/spin_rotation_speed = 0.0
+shader_parameter/move_speed = 7.0
+shader_parameter/offset = Vector2(0, 0)
+shader_parameter/colour_1 = Color(0.47451, 0.854902, 0.878431, 1)
+shader_parameter/colour_2 = Color(0.27451, 0.756863, 0.831373, 1)
+shader_parameter/colour_3 = Color(0.133333, 0.12549, 0.12549, 1)
+shader_parameter/contrast = 4.5
+shader_parameter/lighting = 0.4
+shader_parameter/spin_amount = 0.0
+shader_parameter/pixel_filter = 2160.0
+shader_parameter/is_rotating = false
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_p1dni"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tsjbw"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5gtk5"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8g4vy"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y6tlc"]
+bg_color = Color(0, 0, 0, 1)
+
+[node name="root" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_fa02e")
+
+[node name="bg" type="TextureRect" parent="."]
+material = SubResource("ShaderMaterial_ed45l")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("CanvasTexture_p1dni")
+stretch_mode = 6
+
+[node name="darken" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.372549)
+
+[node name="tabs" type="TabContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_3q4ju")
+theme_override_font_sizes/font_size = 50
+tab_alignment = 1
+current_tab = 0
+
+[node name="overview" type="VBoxContainer" parent="tabs"]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="container" type="VBoxContainer" parent="tabs/overview"]
+custom_minimum_size = Vector2(250, 300)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 1
+
+[node name="name" type="LineEdit" parent="tabs/overview/container"]
+custom_minimum_size = Vector2(1920, 150)
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("2_3q4ju")
+theme_override_font_sizes/font_size = 80
+theme_override_styles/focus = SubResource("StyleBoxFlat_tsjbw")
+theme_override_styles/normal = SubResource("StyleBoxFlat_5gtk5")
+placeholder_text = "Choose your airline's name"
+alignment = 1
+flat = true
+
+[node name="Label" type="Label" parent="tabs/overview/container"]
+layout_mode = 2
+theme = ExtResource("2_3q4ju")
+theme_override_font_sizes/font_size = 50
+text = "
+  AIRCRAFT INVENTORY
+ -------------------------"
+
+[node name="grid" type="GridContainer" parent="tabs/overview/container"]
+layout_mode = 2
+
+[node name="money" type="Label" parent="tabs/overview"]
+layout_mode = 2
+size_flags_vertical = 10
+theme = ExtResource("2_3q4ju")
+theme_override_colors/font_color = Color(0.773083, 1, 0.78066, 1)
+theme_override_font_sizes/font_size = 75
+text = "$xxxxxx"
+
+[node name="purchase" type="VBoxContainer" parent="tabs"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="scroll" type="ScrollContainer" parent="tabs/purchase"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="purchaseList" type="ItemList" parent="tabs/purchase/scroll"]
+custom_minimum_size = Vector2(0, 500)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("2_3q4ju")
+theme_override_colors/guide_color = Color(1, 1, 1, 1)
+theme_override_colors/font_selected_color = Color(0.895015, 0.849712, 0.987678, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hovered_color = Color(0.970695, 0.880668, 0.938569, 1)
+theme_override_constants/outline_size = 0
+theme_override_constants/v_separation = 20
+theme_override_font_sizes/font_size = 40
+
+[node name="money" type="Label" parent="tabs/purchase"]
+layout_mode = 2
+theme = ExtResource("2_3q4ju")
+theme_override_colors/font_color = Color(0.773083, 1, 0.78066, 1)
+theme_override_font_sizes/font_size = 75
+text = "$xxxxxx"
+
+[node name="buyMenu" type="PopupMenu" parent="tabs/purchase"]
+size = Vector2i(1000, 700)
+theme = ExtResource("2_3q4ju")
+theme_override_styles/panel = SubResource("StyleBoxFlat_8g4vy")
+hide_on_item_selection = false
+hide_on_checkable_item_selection = false
+
+[node name="vbox" type="VBoxContainer" parent="tabs/purchase/buyMenu"]
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -89.0
+offset_bottom = 89.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="name" type="Label" parent="tabs/purchase/buyMenu/vbox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 60
+text = "
+Aircraft"
+horizontal_alignment = 1
+
+[node name="cost" type="Label" parent="tabs/purchase/buyMenu/vbox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.816596, 1, 0.776802, 1)
+theme_override_font_sizes/font_size = 75
+text = "$ xxxxxxxxxx"
+horizontal_alignment = 1
+
+[node name="baseRate" type="Label" parent="tabs/purchase/buyMenu/vbox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.954019, 0.940357, 1)
+theme_override_font_sizes/font_size = 50
+text = "$xx / sec"
+horizontal_alignment = 1
+
+[node name="photo" type="TextureRect" parent="tabs/purchase/buyMenu/vbox"]
+custom_minimum_size = Vector2(200, 250)
+layout_mode = 2
+size_flags_vertical = 3
+expand_mode = 2
+stretch_mode = 5
+
+[node name="airports" type="Button" parent="tabs/purchase/buyMenu/vbox"]
+layout_mode = 2
+text = "RANGE LIST"
+
+[node name="buy" type="Button" parent="tabs/purchase/buyMenu/vbox"]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+theme = ExtResource("2_3q4ju")
+theme_override_font_sizes/font_size = 75
+text = "BUY"
+
+[node name="notice" type="AcceptDialog" parent="tabs/purchase"]
+auto_translate_mode = 1
+title = ""
+position = Vector2i(0, 36)
+size = Vector2i(650, 350)
+theme = ExtResource("2_3q4ju")
+theme_override_styles/panel = SubResource("StyleBoxFlat_y6tlc")
+ok_button_text = " OK "
+dialog_autowrap = true
+
+[node name="text" type="Label" parent="tabs/purchase/notice"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 90.0
+offset_bottom = 21.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 40
+text = "xxxxxxxxxx"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="routes" type="VBoxContainer" parent="tabs"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 2
+
+[node name="scroll" type="ScrollContainer" parent="tabs/routes"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="airportList" type="ItemList" parent="tabs/routes/scroll"]
+custom_minimum_size = Vector2(0, 500)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("2_3q4ju")
+theme_override_colors/guide_color = Color(1, 1, 1, 1)
+theme_override_colors/font_selected_color = Color(0.895015, 0.849712, 0.987678, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hovered_color = Color(0.970695, 0.880668, 0.938569, 1)
+theme_override_constants/outline_size = 0
+theme_override_constants/v_separation = 20
+theme_override_font_sizes/font_size = 80
+fixed_icon_size = Vector2i(50, 50)
+
+[node name="buySlot" type="PopupMenu" parent="tabs/routes"]
+auto_translate_mode = 1
+size = Vector2i(750, 400)
+theme = ExtResource("2_3q4ju")
+theme_override_styles/panel = SubResource("StyleBoxFlat_8g4vy")
+hide_on_item_selection = false
+hide_on_checkable_item_selection = false
+
+[node name="vbox" type="VBoxContainer" parent="tabs/routes/buySlot"]
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -188.0
+offset_bottom = 163.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="name" type="Label" parent="tabs/routes/buySlot/vbox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "
+Airport"
+horizontal_alignment = 1
+
+[node name="cost" type="Label" parent="tabs/routes/buySlot/vbox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "$ xxxxxxxxxx"
+horizontal_alignment = 1
+
+[node name="mult" type="Label" parent="tabs/routes/buySlot/vbox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.80446, 1, 0.751466, 1)
+theme_override_font_sizes/font_size = 50
+text = "x.xx"
+horizontal_alignment = 1
+
+[node name="code" type="Label" parent="tabs/routes/buySlot/vbox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.910098, 0.91064, 1)
+theme_override_font_sizes/font_size = 125
+text = "XXX"
+horizontal_alignment = 1
+
+[node name="buySlot" type="Button" parent="tabs/routes/buySlot/vbox"]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+theme = ExtResource("2_3q4ju")
+theme_override_font_sizes/font_size = 50
+text = "BUY"
+
+[node name="notice" type="AcceptDialog" parent="tabs/routes"]
+auto_translate_mode = 1
+title = ""
+position = Vector2i(0, 36)
+size = Vector2i(350, 200)
+theme = ExtResource("2_3q4ju")
+theme_override_styles/panel = SubResource("StyleBoxFlat_y6tlc")
+ok_button_text = " OK "
+dialog_autowrap = true
+
+[node name="text" type="Label" parent="tabs/routes/notice"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -51.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 28
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="money" type="Label" parent="tabs/routes"]
+layout_mode = 2
+theme = ExtResource("2_3q4ju")
+theme_override_colors/font_color = Color(0.773083, 1, 0.78066, 1)
+theme_override_font_sizes/font_size = 75
+text = "$xxxxxx"
+
+[node name="update" type="Timer" parent="."]
+autostart = true
+
+[connection signal="text_changed" from="tabs/overview/container/name" to="." method="_on_name_text_changed"]
+[connection signal="item_selected" from="tabs/purchase/scroll/purchaseList" to="." method="_on_purchase_list_item_selected"]
+[connection signal="close_requested" from="tabs/purchase/buyMenu" to="." method="_on_buy_menu_close_requested"]
+[connection signal="go_back_requested" from="tabs/purchase/buyMenu" to="." method="_on_buy_menu_go_back_requested"]
+[connection signal="button_down" from="tabs/purchase/buyMenu/vbox/airports" to="." method="_on_airports_button_down"]
+[connection signal="button_down" from="tabs/purchase/buyMenu/vbox/buy" to="." method="_on_buy_button_down"]
+[connection signal="item_selected" from="tabs/routes/scroll/airportList" to="." method="_on_airport_list_item_selected"]
+[connection signal="button_down" from="tabs/routes/buySlot/vbox/buySlot" to="." method="_on_buy_slot_button_down"]
+[connection signal="timeout" from="update" to="." method="_on_update_timeout"]

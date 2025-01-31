@@ -1,0 +1,78 @@
+[gd_scene load_steps=6 format=3 uid="uid://b8jbgnrp5agaa"]
+
+[ext_resource type="Script" path="res://Scripts/title.gd" id="1_2llll"]
+[ext_resource type="Shader" path="res://shaders/bg.gdshader" id="2_de2aj"]
+[ext_resource type="Texture2D" uid="uid://cywuhfowdn4cq" path="res://Sprites/logo.png" id="3_rdgwv"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_13p2b"]
+shader = ExtResource("2_de2aj")
+shader_parameter/spin_rotation_speed = 0.0
+shader_parameter/move_speed = 7.0
+shader_parameter/offset = Vector2(0, 0)
+shader_parameter/colour_1 = Color(0.47451, 0.854902, 0.878431, 1)
+shader_parameter/colour_2 = Color(0.27451, 0.756863, 0.831373, 1)
+shader_parameter/colour_3 = Color(0.133333, 0.12549, 0.12549, 1)
+shader_parameter/contrast = 3.5
+shader_parameter/lighting = 0.4
+shader_parameter/spin_amount = 0.0
+shader_parameter/pixel_filter = 2160.0
+shader_parameter/is_rotating = false
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_tun6d"]
+
+[node name="title" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_2llll")
+
+[node name="bg" type="TextureRect" parent="."]
+material = SubResource("ShaderMaterial_13p2b")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("CanvasTexture_tun6d")
+stretch_mode = 6
+
+[node name="darken" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.568627)
+
+[node name="start" type="Button" parent="."]
+layout_mode = 0
+offset_left = 635.0
+offset_top = 514.0
+offset_right = 1117.0
+offset_bottom = 644.0
+scale = Vector2(1.51875, 1.51875)
+theme_override_font_sizes/font_size = 75
+text = "START"
+
+[node name="reset" type="Button" parent="."]
+layout_mode = 0
+offset_left = 837.0
+offset_top = 773.0
+offset_right = 1041.0
+offset_bottom = 836.0
+scale = Vector2(1.55318, 1.55318)
+theme_override_font_sizes/font_size = 40
+text = "RESET"
+
+[node name="Logo" type="Sprite2D" parent="."]
+position = Vector2(998, 189)
+scale = Vector2(1.6434, 1.6434)
+texture = ExtResource("3_rdgwv")
+
+[connection signal="button_up" from="start" to="." method="_on_start_button_up"]
+[connection signal="button_up" from="reset" to="." method="_on_reset_button_up"]
