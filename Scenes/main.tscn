@@ -1,8 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://mghp63ii5ue8"]
+[gd_scene load_steps=14 format=3 uid="uid://mghp63ii5ue8"]
 
 [ext_resource type="Shader" path="res://shaders/bg.gdshader" id="1_4lfu2"]
 [ext_resource type="Script" path="res://Scripts/main.gd" id="1_fa02e"]
 [ext_resource type="Theme" uid="uid://mso3nbd2es17" path="res://Resources/theme.tres" id="2_3q4ju"]
+[ext_resource type="Shader" path="res://shaders/crt.gdshader" id="4_snw8h"]
+[ext_resource type="AudioStream" uid="uid://b63iiplf4aegh" path="res://Resources/click.mp3" id="5_6tuy1"]
+[ext_resource type="AudioStream" uid="uid://6nr0qwiduk1y" path="res://Resources/select.mp3" id="6_162cj"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ed45l"]
 shader = ExtResource("1_4lfu2")
@@ -31,6 +34,30 @@ bg_color = Color(0, 0, 0, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y6tlc"]
 bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_e5bwj"]
+shader = ExtResource("4_snw8h")
+shader_parameter/overlay = true
+shader_parameter/resolution = Vector2(1920, 1080)
+shader_parameter/brightness = 1.2
+shader_parameter/scanlines_opacity = 0.136
+shader_parameter/scanlines_width = 0.5
+shader_parameter/grille_opacity = 0.075
+shader_parameter/roll = true
+shader_parameter/roll_speed = 2.0
+shader_parameter/roll_size = 6.124
+shader_parameter/roll_variation = 5.0
+shader_parameter/distort_intensity = 0.002
+shader_parameter/aberration = 0.00500005
+shader_parameter/noise_opacity = 0.058
+shader_parameter/noise_speed = 5.0
+shader_parameter/static_noise_intensity = 0.06
+shader_parameter/pixelate = true
+shader_parameter/discolor = false
+shader_parameter/warp_amount = 0.101
+shader_parameter/clip_warp = false
+shader_parameter/vignette_intensity = 0.0
+shader_parameter/vignette_opacity = 0.0
 
 [node name="root" type="Control"]
 layout_mode = 3
@@ -72,6 +99,7 @@ theme = ExtResource("2_3q4ju")
 theme_override_font_sizes/font_size = 50
 tab_alignment = 1
 current_tab = 0
+all_tabs_in_front = true
 
 [node name="overview" type="VBoxContainer" parent="tabs"]
 layout_mode = 2
@@ -95,24 +123,70 @@ placeholder_text = "Choose your airline's name"
 alignment = 1
 flat = true
 
-[node name="Label" type="Label" parent="tabs/overview/container"]
+[node name="hboxLab" type="HBoxContainer" parent="tabs/overview/container"]
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="tabs/overview/container/hboxLab"]
+layout_mode = 2
+size_flags_horizontal = 0
 theme = ExtResource("2_3q4ju")
+theme_override_colors/font_color = Color(1, 0.622315, 0.553521, 1)
 theme_override_font_sizes/font_size = 50
 text = "
   AIRCRAFT INVENTORY
  -------------------------"
+horizontal_alignment = 1
 
-[node name="grid" type="GridContainer" parent="tabs/overview/container"]
+[node name="Label2" type="Label" parent="tabs/overview/container/hboxLab"]
 layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme = ExtResource("2_3q4ju")
+theme_override_colors/font_color = Color(1, 0.622315, 0.553521, 1)
+theme_override_font_sizes/font_size = 50
+text = "
+Bought Slots  
+ -------------------------"
+horizontal_alignment = 1
 
-[node name="money" type="Label" parent="tabs/overview"]
+[node name="hboxGrid" type="HBoxContainer" parent="tabs/overview/container"]
 layout_mode = 2
+size_flags_vertical = 3
+
+[node name="grid" type="GridContainer" parent="tabs/overview/container/hboxGrid"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 3
+
+[node name="grid2" type="GridContainer" parent="tabs/overview/container/hboxGrid"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 3
+
+[node name="moneyContainer" type="HBoxContainer" parent="tabs/overview"]
+layout_mode = 2
+size_flags_vertical = 10
+
+[node name="money" type="Label" parent="tabs/overview/moneyContainer"]
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 10
+theme = ExtResource("2_3q4ju")
+theme_override_colors/font_color = Color(0.419927, 0.999998, 0.4875, 1)
+theme_override_font_sizes/font_size = 75
+text = "$xxxxxx"
+
+[node name="rate" type="Label" parent="tabs/overview/moneyContainer"]
+layout_mode = 2
+size_flags_horizontal = 10
 size_flags_vertical = 10
 theme = ExtResource("2_3q4ju")
 theme_override_colors/font_color = Color(0.773083, 1, 0.78066, 1)
 theme_override_font_sizes/font_size = 75
 text = "$xxxxxx"
+horizontal_alignment = 2
 
 [node name="purchase" type="VBoxContainer" parent="tabs"]
 visible = false
@@ -123,7 +197,7 @@ metadata/_tab_index = 1
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="purchaseList" type="ItemList" parent="tabs/purchase/scroll"]
+[node name="purchaseList" type="ItemList" parent="tabs/purchase/scroll" groups=["clickable"]]
 custom_minimum_size = Vector2(0, 500)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -136,13 +210,6 @@ theme_override_colors/font_hovered_color = Color(0.970695, 0.880668, 0.938569, 1
 theme_override_constants/outline_size = 0
 theme_override_constants/v_separation = 20
 theme_override_font_sizes/font_size = 40
-
-[node name="money" type="Label" parent="tabs/purchase"]
-layout_mode = 2
-theme = ExtResource("2_3q4ju")
-theme_override_colors/font_color = Color(0.773083, 1, 0.78066, 1)
-theme_override_font_sizes/font_size = 75
-text = "$xxxxxx"
 
 [node name="buyMenu" type="PopupMenu" parent="tabs/purchase"]
 size = Vector2i(1000, 700)
@@ -191,18 +258,18 @@ size_flags_vertical = 3
 expand_mode = 2
 stretch_mode = 5
 
-[node name="airports" type="Button" parent="tabs/purchase/buyMenu/vbox"]
+[node name="airports" type="Button" parent="tabs/purchase/buyMenu/vbox" groups=["clickable"]]
 layout_mode = 2
 text = "RANGE LIST"
 
-[node name="buy" type="Button" parent="tabs/purchase/buyMenu/vbox"]
+[node name="buy" type="Button" parent="tabs/purchase/buyMenu/vbox" groups=["clickable"]]
 custom_minimum_size = Vector2(0, 150)
 layout_mode = 2
 theme = ExtResource("2_3q4ju")
 theme_override_font_sizes/font_size = 75
 text = "BUY"
 
-[node name="notice" type="AcceptDialog" parent="tabs/purchase"]
+[node name="notice" type="AcceptDialog" parent="tabs/purchase" groups=["clickable"]]
 auto_translate_mode = 1
 title = ""
 position = Vector2i(0, 36)
@@ -227,6 +294,29 @@ text = "xxxxxxxxxx"
 horizontal_alignment = 1
 autowrap_mode = 3
 
+[node name="moneyContainer" type="HBoxContainer" parent="tabs/purchase"]
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="money" type="Label" parent="tabs/purchase/moneyContainer"]
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 10
+theme = ExtResource("2_3q4ju")
+theme_override_colors/font_color = Color(0.419927, 0.999998, 0.4875, 1)
+theme_override_font_sizes/font_size = 75
+text = "$xxxxxx"
+
+[node name="rate" type="Label" parent="tabs/purchase/moneyContainer"]
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 10
+theme = ExtResource("2_3q4ju")
+theme_override_colors/font_color = Color(0.773083, 1, 0.78066, 1)
+theme_override_font_sizes/font_size = 75
+text = "$xxxxxx"
+horizontal_alignment = 2
+
 [node name="routes" type="VBoxContainer" parent="tabs"]
 visible = false
 layout_mode = 2
@@ -236,7 +326,7 @@ metadata/_tab_index = 2
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="airportList" type="ItemList" parent="tabs/routes/scroll"]
+[node name="airportList" type="ItemList" parent="tabs/routes/scroll" groups=["clickable"]]
 custom_minimum_size = Vector2(0, 500)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -280,8 +370,8 @@ horizontal_alignment = 1
 
 [node name="cost" type="Label" parent="tabs/routes/buySlot/vbox"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 25
-text = "$ xxxxxxxxxx"
+theme_override_font_sizes/font_size = 50
+text = "$XXXM"
 horizontal_alignment = 1
 
 [node name="mult" type="Label" parent="tabs/routes/buySlot/vbox"]
@@ -298,7 +388,7 @@ theme_override_font_sizes/font_size = 125
 text = "XXX"
 horizontal_alignment = 1
 
-[node name="buySlot" type="Button" parent="tabs/routes/buySlot/vbox"]
+[node name="buySlot" type="Button" parent="tabs/routes/buySlot/vbox" groups=["clickable"]]
 custom_minimum_size = Vector2(0, 80)
 layout_mode = 2
 theme = ExtResource("2_3q4ju")
@@ -328,16 +418,90 @@ theme_override_font_sizes/font_size = 28
 horizontal_alignment = 1
 autowrap_mode = 3
 
-[node name="money" type="Label" parent="tabs/routes"]
+[node name="moneyContainer" type="HBoxContainer" parent="tabs/routes"]
 layout_mode = 2
+size_flags_vertical = 8
+
+[node name="money" type="Label" parent="tabs/routes/moneyContainer"]
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 10
+theme = ExtResource("2_3q4ju")
+theme_override_colors/font_color = Color(0.419927, 0.999998, 0.4875, 1)
+theme_override_font_sizes/font_size = 75
+text = "$xxxxxx"
+
+[node name="rate" type="Label" parent="tabs/routes/moneyContainer"]
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 10
 theme = ExtResource("2_3q4ju")
 theme_override_colors/font_color = Color(0.773083, 1, 0.78066, 1)
 theme_override_font_sizes/font_size = 75
 text = "$xxxxxx"
+horizontal_alignment = 2
 
 [node name="update" type="Timer" parent="."]
 autostart = true
 
+[node name="hbox" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -831.5
+offset_right = 831.5
+offset_bottom = 59.0
+grow_horizontal = 2
+mouse_filter = 2
+
+[node name="back" type="Button" parent="hbox" groups=["clickable"]]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 50
+text = "back"
+
+[node name="margin" type="MarginContainer" parent="hbox"]
+custom_minimum_size = Vector2(1300, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="crtToggle" type="Button" parent="hbox" groups=["clickable"]]
+layout_mode = 2
+size_flags_horizontal = 10
+theme_override_font_sizes/font_size = 50
+text = " crt "
+
+[node name="crt" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_e5bwj")
+layout_mode = 2
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="click" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_6tuy1")
+volume_db = 5.448
+
+[node name="select" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_162cj")
+volume_db = 7.924
+
+[node name="fade" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[connection signal="tab_clicked" from="tabs" to="." method="_on_tabs_tab_clicked"]
 [connection signal="text_changed" from="tabs/overview/container/name" to="." method="_on_name_text_changed"]
 [connection signal="item_selected" from="tabs/purchase/scroll/purchaseList" to="." method="_on_purchase_list_item_selected"]
 [connection signal="close_requested" from="tabs/purchase/buyMenu" to="." method="_on_buy_menu_close_requested"]
@@ -347,3 +511,5 @@ autostart = true
 [connection signal="item_selected" from="tabs/routes/scroll/airportList" to="." method="_on_airport_list_item_selected"]
 [connection signal="button_down" from="tabs/routes/buySlot/vbox/buySlot" to="." method="_on_buy_slot_button_down"]
 [connection signal="timeout" from="update" to="." method="_on_update_timeout"]
+[connection signal="button_up" from="hbox/back" to="." method="_on_back_button_up"]
+[connection signal="button_up" from="hbox/crtToggle" to="." method="_on_crt_toggle_button_up"]
