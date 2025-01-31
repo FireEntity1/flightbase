@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://b8jbgnrp5agaa"]
+[gd_scene load_steps=10 format=3 uid="uid://b8jbgnrp5agaa"]
 
 [ext_resource type="Script" path="res://Scripts/title.gd" id="1_2llll"]
 [ext_resource type="Shader" path="res://shaders/bg.gdshader" id="2_de2aj"]
 [ext_resource type="Texture2D" uid="uid://cywuhfowdn4cq" path="res://Sprites/logo.png" id="3_rdgwv"]
 [ext_resource type="Shader" path="res://shaders/crt.gdshader" id="4_5ega2"]
 [ext_resource type="AudioStream" uid="uid://6nr0qwiduk1y" path="res://Resources/select.mp3" id="5_iya0q"]
+[ext_resource type="Theme" uid="uid://mso3nbd2es17" path="res://Resources/theme.tres" id="6_n51tf"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_13p2b"]
 shader = ExtResource("2_de2aj")
@@ -24,27 +25,9 @@ shader_parameter/is_rotating = false
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_nfv3b"]
 shader = ExtResource("4_5ega2")
-shader_parameter/overlay = true
-shader_parameter/resolution = Vector2(1920, 1080)
-shader_parameter/brightness = 1.5
-shader_parameter/scanlines_opacity = 0.136
-shader_parameter/scanlines_width = 0.5
-shader_parameter/grille_opacity = 0.075
-shader_parameter/roll = true
-shader_parameter/roll_speed = 8.0
-shader_parameter/roll_size = 15.0
-shader_parameter/roll_variation = 0.589
-shader_parameter/distort_intensity = 0.004
-shader_parameter/aberration = 0.00500005
-shader_parameter/noise_opacity = 0.019
-shader_parameter/noise_speed = 5.0
-shader_parameter/static_noise_intensity = 0.191
-shader_parameter/pixelate = true
-shader_parameter/discolor = false
-shader_parameter/warp_amount = 0.101
-shader_parameter/clip_warp = false
-shader_parameter/vignette_intensity = 0.0
-shader_parameter/vignette_opacity = 0.0
+shader_parameter/screen_resolution = Vector2(1920, 1080)
+shader_parameter/scanline_intensity = 0.025
+shader_parameter/color_bleed_weight = 1.0
 
 [node name="title" type="Control"]
 layout_mode = 3
@@ -73,7 +56,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0, 0, 0.568627)
+color = Color(0, 0, 0, 0.388235)
 
 [node name="start" type="Button" parent="."]
 layout_mode = 0
@@ -94,6 +77,16 @@ offset_bottom = 836.0
 scale = Vector2(1.55318, 1.55318)
 theme_override_font_sizes/font_size = 40
 text = "RESET"
+
+[node name="exit" type="Button" parent="."]
+layout_mode = 0
+offset_left = 887.0
+offset_top = 928.0
+offset_right = 1116.0
+offset_bottom = 1012.0
+theme = ExtResource("6_n51tf")
+theme_override_font_sizes/font_size = 75
+text = "EXIT"
 
 [node name="Logo" type="Sprite2D" parent="."]
 position = Vector2(998, 189)
@@ -127,3 +120,4 @@ color = Color(0, 0, 0, 1)
 
 [connection signal="button_up" from="start" to="." method="_on_start_button_up"]
 [connection signal="button_up" from="reset" to="." method="_on_reset_button_up"]
+[connection signal="button_up" from="exit" to="." method="_on_exit_button_up"]

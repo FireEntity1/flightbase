@@ -187,3 +187,11 @@ func _on_reset_button_up():
 			print("Save file created successfully")
 		else:
 			print("Error creating save file")
+
+
+func _on_exit_button_up():
+	$select.play()
+	fade = true
+	await get_tree().create_timer(0.8).timeout
+	get_tree().quit()
+	

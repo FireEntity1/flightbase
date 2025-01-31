@@ -8,6 +8,15 @@ var fade = false
 
 var crt = true
 
+var sprites = [preload("res://Sprites/q400.png"),
+	preload("res://Sprites/crj9.png"),
+	preload("res://Sprites/a21x.png"),
+	preload("res://Sprites/b787.png"),
+	preload("res://Sprites/a350.png"),
+	preload("res://Sprites/b747.png")
+]
+
+
 func _ready():
 	var icon = Texture2D.new()
 	icon.set("texture","res://Sprites/plane-white.png")
@@ -18,8 +27,10 @@ func _ready():
 	$tabs/overview/container/name.text = data.name
 	
 	$tabs/purchase/scroll/purchaseList.fixed_icon_size = Vector2(512, 218)
+	var n = 0
 	for aircraft in data.aircraft:
-		$tabs/purchase/scroll/purchaseList.add_item(aircraft.name,load("res://sprites/" + str(aircraft.code) + ".png"))
+		$tabs/purchase/scroll/purchaseList.add_item(aircraft.name,sprites[n])
+		n += 1 
 		
 	for aircraft in data.aircraft:
 		fly(aircraft)
